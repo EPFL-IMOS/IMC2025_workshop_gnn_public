@@ -13,4 +13,4 @@ pyreadr==0.5.3
 python-dotenv==1.1.1
 neptune==1.14.0
 pandas==2.3.2
-pytorch_lightning==2.5.3
+lightning==2.5.3
