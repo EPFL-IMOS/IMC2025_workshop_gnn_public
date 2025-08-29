@@ -1,0 +1,196 @@
+case: swat
+cfg_dest: config.yaml
+dataset:
+  aug_ocvar: true
+  aug_ocvar_on_node: false
+  dir: datasets/swat
+  has_adj: false
+  horizon: 1
+  no_ocvar: false
+  normalize: true
+  num_classes: 1
+  ocvar_dim: 2
+  scaler_type: standard
+  stride: 1
+  test_file: test.csv
+  test_split: 0.2
+  train_file: train.csv
+  use_indep_vars: true
+  val_split: 0.2
+  window_size: 5
+device: auto
+draw_learned_graph: false
+fname: gdn
+gpu_mem: false
+metric_agg: argmin
+metric_best: mse
+model:
+  activation: relu
+  ae:
+    hidden_dims:
+    - 20
+    latent_dim: 8
+  cnn:
+    hidden_dim: 50
+    kernel_size: 5
+    n_channels: 10
+    n_layers: 3
+    stride: 1
+  do_norm: true
+  dropout: 0.0
+  dyedgegat:
+    add_self_loop: true
+    aug_feat_edge_attr: true
+    contr_encoder_type: gru
+    decoder_norm_type: batch
+    do_decoder_norm: false
+    do_encoder_norm: false
+    do_gnn_norm: true
+    edge_aggr: dot
+    encoder_norm_type: batch
+    feat_edge_hid_dim: 128
+    feat_input_edge: 1
+    feat_input_node: 3
+    feat_target_node: 1
+    flip_output: false
+    gnn_embed_dim: 20
+    gnn_norm_type: batch
+    gnn_type: gin
+    infer_graph: false
+    infer_temporal_edge: true
+    learn_sys: false
+    node_encoder_mode: simple
+    node_encoder_type: gru
+    num_gnn_layers: 1
+    num_recon_layers: 1
+    recon_hidden_dim: 20
+    temp_edge_embed_dim: 1
+    temp_edge_hid_dim: 100
+    temp_node_embed_dim: 16
+    temporal_kernel: 5
+    temporal_window: 5
+    time_dim: 5
+    topk: 20
+    use_time_encoding: true
+  fnn:
+    hidden_dims:
+    - 20
+  gdn:
+    embed_dim: 64
+    out_inter_dim: 64
+    out_layer_num: 1
+    outer_dropout: 0.2
+    topk: 15
+  grelen:
+    graph_learner_head: 4
+    graph_learner_n_head_dim: 32
+    graph_learner_n_hid: 64
+    gru_n_dim: 64
+    max_diffusion_step: 2
+    num_rnn_layers: 1
+    prior:
+    - 0.91
+    - 0.03
+    - 0.03
+    - 0.03
+    temperature: 0.5
+  lstmae:
+    hidden_dim: 10
+    n_layers: 1
+  mtadgat:
+    decoder_hidden: 100
+    edge_embed_dim: 3
+    encode_edge_attr: true
+    encoder:
+      conv_pad: true
+      dilation: 1
+      encode: true
+      in_depth: false
+      kernel_size: 5
+      padding: 0
+      stride: 1
+    fc_hid_dim: 100
+    fc_n_layers: 3
+    feat_gat_embed_dim: 100
+    forecast: true
+    gru_hid_dim: 100
+    gru_n_layers: 1
+    num_edge_types: 4
+    num_feat_layers: 1
+    num_temp_layers: 1
+    recon_hid_dim: 100
+    recon_n_layers: 1
+    recons: true
+    time_gat_embed_dim: 100
+    use_gatv2: true
+  norm_func: batch
+  output_dim: 0
+  rnn:
+    bidirectional: false
+    hidden_dim: 50
+    n_layers: 1
+    rnn_type: gru
+  type: gdn
+  usad:
+    alpha: 0.5
+    final_act: sigmoid
+    latent_dim: 2
+    n_hidden_layers: 2
+    warmup_epochs: 30
+neptune_agg: false
+neptune_each_run: false
+num_threads: 1
+num_workers: 4
+optim:
+  base_lr: 0.001
+  criterion: mse
+  factor: 0.95
+  lr_decay: 0.1
+  max_epochs: 50
+  min_lr: 0.0001
+  momentum: 0.9
+  optimizer: adam
+  patience: 2
+  scheduler: none
+  steps:
+  - 30
+  - 60
+  - 90
+  weight_decay: 1.0e-05
+out_dir: run/results/anomaly/swat/gdn
+print: both
+round: 5
+seed: 5
+task:
+  anomaly_score_func: node_scaled_topk
+  anomaly_score_metric: mae
+  anomaly_score_pak: 50
+  anomaly_score_sw: 1
+  anomaly_score_thresh: 1.0
+  anomaly_score_thresh_mode: val
+  anomaly_score_topk: 1
+  combine_type: mapping
+  detection_delay_ts: 10
+  gamma: 1.0
+  level: graph
+  metric: all
+  track_graph: true
+  train_type: forecast
+  type: anomaly
+tensorboard_agg: true
+tensorboard_each_run: true
+tensorboard_iter: false
+train:
+  auto_resume: true
+  batch_size: 128
+  ckpt_clean: false
+  ckpt_period: 5
+  clip_grad: false
+  draw_period: 5
+  early_stop_min: 15
+  early_stop_patience: 10
+  epoch_resume: -1
+  load_pretrained: false
+  max_grad_norm: 1
+  pretrained_model_path: ''
+  shuffle: true

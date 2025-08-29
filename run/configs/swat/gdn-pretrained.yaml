@@ -1,0 +1,64 @@
+device: auto
+out_dir: results
+case: swat
+seed: 5
+num_workers: 4
+print: both
+metric_best: mse
+
+
+### dataset settings
+dataset:
+  dir: datasets/swat
+  has_adj: false
+  normalize: true
+  scaler_type: standard
+  window_size: 5
+  stride: 1
+  aug_ocvar: true
+  use_indep_vars: true
+  aug_ocvar_on_node: false
+  train_file: train.csv
+  test_file: test.csv
+  horizon: 1
+  val_split: 0.2
+
+task:
+  type: anomaly
+  anomaly_score_func: node_scaled_topk
+  level: graph
+  train_type: forecast
+  detection_delay_ts: 10
+  anomaly_score_sw: 1
+  anomaly_score_topk: 1
+  anomaly_score_thresh_mode: val
+
+### default model paramters
+model:
+  type: gdn
+  gdn:
+    topk: 15
+    embed_dim: 64
+    out_inter_dim: 64
+    out_layer_num: 1
+  dropout: 0.
+  activation: relu
+  norm_func: batch
+
+### training paramters
+train:
+  ckpt_period: 5
+  draw_period: 5
+  auto_resume: true
+  epoch_resume: -1
+  ckpt_clean: false
+  batch_size: 128
+  early_stop_patience: 10
+  early_stop_min: 15
+  
+### optimizer paramters
+optim:
+  base_lr: 1e-3
+  max_epochs: 50
+  scheduler: none
+  criterion: mse

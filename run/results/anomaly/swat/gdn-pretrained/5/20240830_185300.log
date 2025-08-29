@@ -1,0 +1,327 @@
+INFO     Fri Aug 30 18:53:00 2024
+INFO     GPU Mem: [7127 4217 6741 1247]
+INFO     GPU Prob: [0.11 0.19 0.12 0.58]
+INFO     Random select GPU, select GPU 1 with used mem: 4217
+INFO     case: swat
+cfg_dest: config.yaml
+dataset:
+  aug_ocvar: True
+  aug_ocvar_on_node: False
+  dir: datasets/swat
+  has_adj: False
+  horizon: 1
+  no_ocvar: False
+  normalize: True
+  num_classes: 1
+  ocvar_dim: 2
+  scaler_type: standard
+  stride: 1
+  test_file: test.csv
+  test_split: 0.2
+  train_file: train.csv
+  use_indep_vars: True
+  val_split: 0.2
+  window_size: 5
+device: cuda:1
+draw_learned_graph: False
+fname: gdn
+gpu_mem: False
+metric_agg: argmin
+metric_best: mse
+model:
+  activation: relu
+  ae:
+    hidden_dims: [20]
+    latent_dim: 8
+  cnn:
+    hidden_dim: 50
+    kernel_size: 5
+    n_channels: 10
+    n_layers: 3
+    stride: 1
+  do_norm: True
+  dropout: 0.0
+  dyedgegat:
+    add_self_loop: True
+    aug_feat_edge_attr: True
+    contr_encoder_type: gru
+    decoder_norm_type: batch
+    do_decoder_norm: False
+    do_encoder_norm: False
+    do_gnn_norm: True
+    edge_aggr: dot
+    encoder_norm_type: batch
+    feat_edge_hid_dim: 128
+    feat_input_edge: 1
+    feat_input_node: 3
+    feat_target_node: 1
+    flip_output: False
+    gnn_embed_dim: 20
+    gnn_norm_type: batch
+    gnn_type: gin
+    infer_graph: False
+    infer_temporal_edge: True
+    learn_sys: False
+    node_encoder_mode: simple
+    node_encoder_type: gru
+    num_gnn_layers: 1
+    num_recon_layers: 1
+    recon_hidden_dim: 20
+    temp_edge_embed_dim: 1
+    temp_edge_hid_dim: 100
+    temp_node_embed_dim: 16
+    temporal_kernel: 5
+    temporal_window: 5
+    time_dim: 5
+    topk: 20
+    use_time_encoding: True
+  fnn:
+    hidden_dims: [20]
+  gdn:
+    embed_dim: 64
+    out_inter_dim: 64
+    out_layer_num: 1
+    outer_dropout: 0.2
+    topk: 15
+  grelen:
+    graph_learner_head: 4
+    graph_learner_n_head_dim: 32
+    graph_learner_n_hid: 64
+    gru_n_dim: 64
+    max_diffusion_step: 2
+    num_rnn_layers: 1
+    prior: [0.91, 0.03, 0.03, 0.03]
+    temperature: 0.5
+  lstmae:
+    hidden_dim: 10
+    n_layers: 1
+  mtadgat:
+    decoder_hidden: 100
+    edge_embed_dim: 3
+    encode_edge_attr: True
+    encoder:
+      conv_pad: True
+      dilation: 1
+      encode: True
+      in_depth: False
+      kernel_size: 5
+      padding: 0
+      stride: 1
+    fc_hid_dim: 100
+    fc_n_layers: 3
+    feat_gat_embed_dim: 100
+    forecast: True
+    gru_hid_dim: 100
+    gru_n_layers: 1
+    num_edge_types: 4
+    num_feat_layers: 1
+    num_temp_layers: 1
+    recon_hid_dim: 100
+    recon_n_layers: 1
+    recons: True
+    time_gat_embed_dim: 100
+    use_gatv2: True
+  norm_func: batch
+  output_dim: 0
+  rnn:
+    bidirectional: False
+    hidden_dim: 50
+    n_layers: 1
+    rnn_type: gru
+  type: gdn
+  usad:
+    alpha: 0.5
+    final_act: sigmoid
+    latent_dim: 2
+    n_hidden_layers: 2
+    warmup_epochs: 30
+neptune_agg: False
+neptune_each_run: False
+num_threads: 1
+num_workers: 4
+optim:
+  base_lr: 0.001
+  criterion: mse
+  factor: 0.95
+  lr_decay: 0.1
+  max_epochs: 50
+  min_lr: 0.0001
+  momentum: 0.9
+  optimizer: adam
+  patience: 2
+  scheduler: none
+  steps: [30, 60, 90]
+  weight_decay: 1e-05
+out_dir: run/results/anomaly/swat/gdn
+print: both
+round: 5
+run_dir: run/results/anomaly/swat/gdn/5
+seed: 5
+task:
+  anomaly_score_func: node_scaled_topk
+  anomaly_score_metric: mae
+  anomaly_score_pak: 50
+  anomaly_score_sw: 1
+  anomaly_score_thresh: 1.0
+  anomaly_score_thresh_mode: val
+  anomaly_score_topk: 1
+  combine_type: mapping
+  detection_delay_ts: 10
+  gamma: 1.0
+  level: graph
+  metric: all
+  track_graph: True
+  train_type: forecast
+  type: anomaly
+tensorboard_agg: True
+tensorboard_each_run: True
+tensorboard_iter: False
+train:
+  auto_resume: True
+  batch_size: 128
+  ckpt_clean: False
+  ckpt_period: 5
+  clip_grad: False
+  draw_period: 5
+  early_stop_min: 15
+  early_stop_patience: 10
+  epoch_resume: -1
+  load_pretrained: False
+  max_grad_norm: 1
+  pretrained_model_path: 
+  shuffle: True
+INFO     
+Loaded data from run/datasets/swat
+------------ Basic -----------
+# Samples: 92496
+# Node: 45
+# Edges: 1980
+# Sequence Length: 5
+------------ Fault ratio -----------
+# Ratio of fault samples train: 0.000
+# Ratio of fault samples test: 0.122
+------------ Scaling -----------
+[6.68e-01 5.38e-01 8.57e-01 7.42e-01 0.00e+00 6.91e-01 2.45e-01 1.76e-01
+ 7.31e-01 8.70e-01 0.00e+00 7.40e-01 0.00e+00 6.66e-01 0.00e+00 7.85e-01
+ 7.76e-01 8.79e-01 5.03e-01 8.99e-01 5.10e-01 5.12e-01 2.63e-05 8.23e-01
+ 8.41e-01 2.36e-01 9.77e-01 8.72e-01 1.00e+00 0.00e+00 1.00e+00 9.20e-01
+ 2.47e-01 4.70e-01 1.38e-02 9.77e-01 9.34e-01 9.69e-01 9.74e-01 1.00e+00
+ 9.56e-01 3.25e-01 9.58e-01 8.07e-03 7.77e-03]
+------------ Split -----------
+   Train: 38011/92496
+Validate: 9499/92496
+    Test: 44986/92496
+
+INFO     Model GDN parameters: 3841, deployed to cuda:1
+INFO     GDN(
+  (embedding): Embedding(45, 64)
+  (bn_outlayer_in): BatchNorm1d(64, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+  (act): ReLU()
+  (gnn_layers): ModuleList(
+    (0): GNNLayer(
+      (gnn): GraphLayer(5, 64, heads=1)
+      (bn): BatchNorm1d(64, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+      (act): ReLU()
+    )
+  )
+  (out_layer): OutLayer(
+    (mlp): ModuleList(
+      (0): Linear(in_features=64, out_features=1, bias=True)
+    )
+  )
+  (dp): Dropout(p=0.2, inplace=False)
+)
+INFO     =================================================================
+Layer (type:depth-idx)                   Param #
+=================================================================
+GDN                                      --
+├─Embedding: 1-1                         2,880
+├─BatchNorm1d: 1-2                       128
+├─ReLU: 1-3                              --
+├─ModuleList: 1-4                        --
+│    └─GNNLayer: 2-1                     --
+│    │    └─GraphLayer: 3-1              640
+│    │    └─BatchNorm1d: 3-2             128
+│    │    └─ReLU: 3-3                    --
+├─OutLayer: 1-5                          --
+│    └─ModuleList: 2-2                   --
+│    │    └─Linear: 3-4                  65
+├─Dropout: 1-6                           --
+=================================================================
+Total params: 3,841
+Trainable params: 3,841
+Non-trainable params: 0
+=================================================================
+INFO     Create AnomalyDetectionTask.
+INFO     Create ForecastingTrainer.
+INFO     Training for 50 epochs...
+INFO     No model found at run/results/anomaly/swat/gdn/5/model.pt, starting from scratch
+INFO     Checkpoint found, starting from epoch 0
+INFO     Start training from epoch 0
+INFO     [TRAIN]	: {'epoch': 0, 'loss': 0.50063, 'lr': 0.001, 'params': 3841, 'time_iter': 0.02098, 'mae': 0.4288, 'mape': 78735298527232.0, 'mse': 0.50063, 'rmse': 0.70755, 'eta': 305.25113}
+INFO     Current best epoch is 0 with eval err 0.48368 and test err 1908.30371, saving model...
+INFO     [EVAL]	: {'epoch': 0, 'loss': 0.48368, 'lr': 0, 'params': 3841, 'time_iter': 0.01441, 'mae': 0.39999, 'mape': 42274239021056.0, 'mse': 0.48368, 'rmse': 0.69547}
+INFO     [TEST]	: {'epoch': 0, 'loss': 1908.30371, 'lr': 0, 'params': 3841, 'time_iter': 0.01729, 'mae': 11.95572, 'mape': 898161279238144.0, 'mse': 1908.30371, 'rmse': 43.68414, 'ambiguity': 0.57942, 'accuracy': 0.87469, 'precision': 0.0, 'recall': 0.0, 'f1': 0.0, 'auc': 0.71029, 'pa': 0.29844, 'tp_rate': 0.0, 'fp_rate': 0.00023, 'threshold': 16530.24993, 'threshold_best': 0.92618, 'delay': 165.52941, 'delays_best_auc': 42.20588, 'delay_best_pr': 1.0, 'n_steps': 1.0, 'batch_size': 44986.0}
+INFO     [TRAIN]	: {'epoch': 1, 'loss': 0.32849, 'lr': 0.001, 'params': 3841, 'time_iter': 0.01982, 'mae': 0.31522, 'mape': 51555294248960.0, 'mse': 0.32849, 'rmse': 0.57314, 'eta': 290.81517}
+INFO     [EVAL]	: {'epoch': 1, 'loss': 0.50294, 'lr': 0, 'params': 3841, 'time_iter': 0.01675, 'mae': 0.38437, 'mape': 33203247120384.0, 'mse': 0.50294, 'rmse': 0.70918}
+INFO     [TEST]	: {'epoch': 1, 'loss': 2688.47139, 'lr': 0, 'params': 3841, 'time_iter': 0.01599, 'mae': 15.36415, 'mape': 1514758595411968.0, 'mse': 2688.47021, 'rmse': 51.85046, 'ambiguity': 0.4224, 'accuracy': 0.45583, 'precision': 0.16624, 'recall': 0.83422, 'f1': 0.27724, 'auc': 0.7888, 'pa': 0.69433, 'tp_rate': 0.83422, 'fp_rate': 0.59828, 'threshold': 157.7081, 'threshold_best': 1.2959, 'delay': 27.76471, 'delays_best_auc': 61.61765, 'delay_best_pr': 1.0, 'n_steps': 1.0, 'batch_size': 44986.0}
+INFO     [TRAIN]	: {'epoch': 2, 'loss': 0.29062, 'lr': 0.001, 'params': 3841, 'time_iter': 0.02227, 'mae': 0.29157, 'mape': 50007990337536.0, 'mse': 0.29062, 'rmse': 0.53909, 'eta': 293.4693}
+INFO     Current best epoch is 2 with eval err 0.39730 and test err 3047.92017, saving model...
+INFO     [EVAL]	: {'epoch': 2, 'loss': 0.3973, 'lr': 0, 'params': 3841, 'time_iter': 0.01349, 'mae': 0.34276, 'mape': 30286532313088.0, 'mse': 0.3973, 'rmse': 0.63032}
+INFO     [TEST]	: {'epoch': 2, 'loss': 3047.92061, 'lr': 0, 'params': 3841, 'time_iter': 0.01386, 'mae': 16.50907, 'mape': 2436582728531968.0, 'mse': 3047.92017, 'rmse': 55.20797, 'ambiguity': 0.41787, 'accuracy': 0.56549, 'precision': 0.18974, 'recall': 0.75622, 'f1': 0.30336, 'auc': 0.79106, 'pa': 0.69337, 'tp_rate': 0.75622, 'fp_rate': 0.46179, 'threshold': 480.06165, 'threshold_best': 1.30233, 'delay': 35.0, 'delays_best_auc': 61.79412, 'delay_best_pr': 1.0, 'n_steps': 1.0, 'batch_size': 44986.0}
+INFO     [TRAIN]	: {'epoch': 3, 'loss': 0.27462, 'lr': 0.001, 'params': 3841, 'time_iter': 0.01945, 'mae': 0.28616, 'mape': 50349020807168.0, 'mse': 0.27462, 'rmse': 0.52404, 'eta': 281.85263}
+INFO     Current best epoch is 3 with eval err 0.39604 and test err 2952.57690, saving model...
+INFO     [EVAL]	: {'epoch': 3, 'loss': 0.39604, 'lr': 0, 'params': 3841, 'time_iter': 0.01386, 'mae': 0.34037, 'mape': 26986198073344.0, 'mse': 0.39604, 'rmse': 0.62931}
+INFO     [TEST]	: {'epoch': 3, 'loss': 2952.57714, 'lr': 0, 'params': 3841, 'time_iter': 0.01695, 'mae': 15.6517, 'mape': 697140502331392.0, 'mse': 2952.5769, 'rmse': 54.33762, 'ambiguity': 0.9492, 'accuracy': 0.38279, 'precision': 0.15233, 'recall': 0.86176, 'f1': 0.2589, 'auc': 0.5254, 'pa': 0.15423, 'tp_rate': 0.86176, 'fp_rate': 0.68571, 'threshold': 305.58975, 'threshold_best': 1.18093, 'delay': 23.91176, 'delays_best_auc': 35.55882, 'delay_best_pr': 1.0, 'n_steps': 1.0, 'batch_size': 44986.0}
+INFO     [TRAIN]	: {'epoch': 4, 'loss': 0.2702, 'lr': 0.001, 'params': 3841, 'time_iter': 0.02122, 'mae': 0.28567, 'mape': 53941341519872.0, 'mse': 0.2702, 'rmse': 0.5198, 'eta': 277.30509}
+INFO     Current best epoch is 4 with eval err 0.37526 and test err 2595.07935, saving model...
+INFO     [EVAL]	: {'epoch': 4, 'loss': 0.37526, 'lr': 0, 'params': 3841, 'time_iter': 0.01338, 'mae': 0.3186, 'mape': 20279818452992.0, 'mse': 0.37526, 'rmse': 0.61258}
+INFO     [TEST]	: {'epoch': 4, 'loss': 2595.08029, 'lr': 0, 'params': 3841, 'time_iter': 0.01394, 'mae': 15.36542, 'mape': 703210364862464.0, 'mse': 2595.07935, 'rmse': 50.94192, 'ambiguity': 0.41617, 'accuracy': 0.42364, 'precision': 0.15912, 'recall': 0.84186, 'f1': 0.26765, 'auc': 0.79192, 'pa': 0.70266, 'tp_rate': 0.84186, 'fp_rate': 0.63616, 'threshold': 894.34517, 'threshold_best': 0.98803, 'delay': 27.29412, 'delays_best_auc': 60.26471, 'delay_best_pr': 1.0, 'n_steps': 1.0, 'batch_size': 44986.0}
+INFO     Checkpoint saved: 4
+INFO     [TRAIN]	: {'epoch': 5, 'loss': 0.25992, 'lr': 0.001, 'params': 3841, 'time_iter': 0.01935, 'mae': 0.281, 'mape': 56183238950912.0, 'mse': 0.25992, 'rmse': 0.50982, 'eta': 268.08979}
+INFO     [EVAL]	: {'epoch': 5, 'loss': 0.38854, 'lr': 0, 'params': 3841, 'time_iter': 0.01345, 'mae': 0.32781, 'mape': 22931841220608.0, 'mse': 0.38854, 'rmse': 0.62333}
+INFO     [TEST]	: {'epoch': 5, 'loss': 2656.6616, 'lr': 0, 'params': 3841, 'time_iter': 0.01366, 'mae': 15.50654, 'mape': 384664921440256.0, 'mse': 2656.6626, 'rmse': 51.54282, 'ambiguity': 0.36406, 'accuracy': 0.59587, 'precision': 0.20211, 'recall': 0.75657, 'f1': 0.319, 'auc': 0.81797, 'pa': 0.75061, 'tp_rate': 0.75657, 'fp_rate': 0.42711, 'threshold': 985.71, 'threshold_best': 0.79445, 'delay': 41.82353, 'delays_best_auc': 55.64706, 'delay_best_pr': 1.0, 'n_steps': 1.0, 'batch_size': 44986.0}
+INFO     [TRAIN]	: {'epoch': 6, 'loss': 0.25129, 'lr': 0.001, 'params': 3841, 'time_iter': 0.01968, 'mae': 0.276, 'mape': 57534488510464.0, 'mse': 0.25129, 'rmse': 0.50129, 'eta': 260.47725}
+INFO     [EVAL]	: {'epoch': 6, 'loss': 0.38477, 'lr': 0, 'params': 3841, 'time_iter': 0.0135, 'mae': 0.32609, 'mape': 18415106392064.0, 'mse': 0.38477, 'rmse': 0.6203}
+INFO     [TEST]	: {'epoch': 6, 'loss': 3209.96165, 'lr': 0, 'params': 3841, 'time_iter': 0.01387, 'mae': 16.20125, 'mape': 341533886775296.0, 'mse': 3209.96191, 'rmse': 56.65652, 'ambiguity': 0.41558, 'accuracy': 0.54668, 'precision': 0.18441, 'recall': 0.76652, 'f1': 0.2973, 'auc': 0.79221, 'pa': 0.70312, 'tp_rate': 0.76652, 'fp_rate': 0.48476, 'threshold': 3336.99521, 'threshold_best': 0.88579, 'delay': 34.61765, 'delays_best_auc': 60.85294, 'delay_best_pr': 1.0, 'n_steps': 1.0, 'batch_size': 44986.0}
+INFO     [TRAIN]	: {'epoch': 7, 'loss': 0.25207, 'lr': 0.001, 'params': 3841, 'time_iter': 0.01957, 'mae': 0.27648, 'mape': 57429169537024.0, 'mse': 0.25207, 'rmse': 0.50207, 'eta': 253.13379}
+INFO     Current best epoch is 7 with eval err 0.36509 and test err 3055.18945, saving model...
+INFO     [EVAL]	: {'epoch': 7, 'loss': 0.36509, 'lr': 0, 'params': 3841, 'time_iter': 0.01358, 'mae': 0.31658, 'mape': 15622449659904.0, 'mse': 0.36509, 'rmse': 0.60423}
+INFO     [TEST]	: {'epoch': 7, 'loss': 3055.19018, 'lr': 0, 'params': 3841, 'time_iter': 0.0136, 'mae': 14.35095, 'mape': 33949415899136.0, 'mse': 3055.18945, 'rmse': 55.27377, 'ambiguity': 0.40992, 'accuracy': 0.52796, 'precision': 0.18306, 'recall': 0.80082, 'f1': 0.29799, 'auc': 0.79504, 'pa': 0.70817, 'tp_rate': 0.80082, 'fp_rate': 0.51105, 'threshold': 400.44416, 'threshold_best': 1.00266, 'delay': 34.11765, 'delays_best_auc': 62.76471, 'delay_best_pr': 1.0, 'n_steps': 1.0, 'batch_size': 44986.0}
+INFO     [TRAIN]	: {'epoch': 8, 'loss': 0.2514, 'lr': 0.001, 'params': 3841, 'time_iter': 0.01968, 'mae': 0.27504, 'mape': 57346470445056.0, 'mse': 0.2514, 'rmse': 0.5014, 'eta': 246.28299}
+INFO     [EVAL]	: {'epoch': 8, 'loss': 0.40948, 'lr': 0, 'params': 3841, 'time_iter': 0.01351, 'mae': 0.33891, 'mape': 13464944771072.0, 'mse': 0.40948, 'rmse': 0.63991}
+INFO     [TEST]	: {'epoch': 8, 'loss': 2943.169, 'lr': 0, 'params': 3841, 'time_iter': 0.01349, 'mae': 14.12763, 'mape': 14654400102400.0, 'mse': 2943.16797, 'rmse': 54.25097, 'ambiguity': 0.37046, 'accuracy': 0.84131, 'precision': 0.41888, 'recall': 0.69314, 'f1': 0.52219, 'auc': 0.81477, 'pa': 0.74371, 'tp_rate': 0.69314, 'fp_rate': 0.13751, 'threshold': 682.75052, 'threshold_best': 1.48487, 'delay': 51.20588, 'delays_best_auc': 54.35294, 'delay_best_pr': 1.0, 'n_steps': 1.0, 'batch_size': 44986.0}
+INFO     [TRAIN]	: {'epoch': 9, 'loss': 0.25623, 'lr': 0.001, 'params': 3841, 'time_iter': 0.01913, 'mae': 0.27607, 'mape': 56586454171648.0, 'mse': 0.25623, 'rmse': 0.5062, 'eta': 238.97345}
+INFO     [EVAL]	: {'epoch': 9, 'loss': 0.37778, 'lr': 0, 'params': 3841, 'time_iter': 0.01358, 'mae': 0.31573, 'mape': 16565876555776.0, 'mse': 0.37778, 'rmse': 0.61463}
+INFO     [TEST]	: {'epoch': 9, 'loss': 3525.78202, 'lr': 0, 'params': 3841, 'time_iter': 0.01373, 'mae': 13.155, 'mape': 35796862107648.0, 'mse': 3525.78076, 'rmse': 59.37828, 'ambiguity': 0.35698, 'accuracy': 0.84142, 'precision': 0.41895, 'recall': 0.69154, 'f1': 0.52179, 'auc': 0.82151, 'pa': 0.73468, 'tp_rate': 0.69154, 'fp_rate': 0.13715, 'threshold': 558.06989, 'threshold_best': 0.67856, 'delay': 51.23529, 'delays_best_auc': 56.73529, 'delay_best_pr': 1.0, 'n_steps': 1.0, 'batch_size': 44986.0}
+INFO     Checkpoint saved: 9
+INFO     [TRAIN]	: {'epoch': 10, 'loss': 0.25138, 'lr': 0.001, 'params': 3841, 'time_iter': 0.01899, 'mae': 0.27121, 'mape': 56655354003456.0, 'mse': 0.25138, 'rmse': 0.50137, 'eta': 231.81873}
+INFO     [EVAL]	: {'epoch': 10, 'loss': 0.37056, 'lr': 0, 'params': 3841, 'time_iter': 0.01376, 'mae': 0.30764, 'mape': 17501545037824.0, 'mse': 0.37056, 'rmse': 0.60873}
+INFO     [TEST]	: {'epoch': 10, 'loss': 2869.90054, 'lr': 0, 'params': 3841, 'time_iter': 0.0133, 'mae': 12.91207, 'mape': 20055228153856.0, 'mse': 2869.90039, 'rmse': 53.57145, 'ambiguity': 0.4082, 'accuracy': 0.5114, 'precision': 0.17995, 'recall': 0.81681, 'f1': 0.29493, 'auc': 0.7959, 'pa': 0.70965, 'tp_rate': 0.81681, 'fp_rate': 0.53227, 'threshold': 681.55348, 'threshold_best': 0.94978, 'delay': 31.35294, 'delays_best_auc': 61.14706, 'delay_best_pr': 1.0, 'n_steps': 1.0, 'batch_size': 44986.0}
+INFO     [TRAIN]	: {'epoch': 11, 'loss': 0.25405, 'lr': 0.001, 'params': 3841, 'time_iter': 0.01905, 'mae': 0.27238, 'mape': 56476064284672.0, 'mse': 0.25405, 'rmse': 0.50404, 'eta': 224.96873}
+INFO     [EVAL]	: {'epoch': 11, 'loss': 0.36634, 'lr': 0, 'params': 3841, 'time_iter': 0.01337, 'mae': 0.30994, 'mape': 15984881565696.0, 'mse': 0.36634, 'rmse': 0.60526}
+INFO     [TEST]	: {'epoch': 11, 'loss': 2741.73141, 'lr': 0, 'params': 3841, 'time_iter': 0.01381, 'mae': 13.13735, 'mape': 17250692104192.0, 'mse': 2741.73022, 'rmse': 52.36153, 'ambiguity': 0.39015, 'accuracy': 0.94938, 'precision': 0.98749, 'recall': 0.60306, 'f1': 0.74881, 'auc': 0.80493, 'pa': 0.71599, 'tp_rate': 0.60306, 'fp_rate': 0.00109, 'threshold': 6541.71359, 'threshold_best': 0.86503, 'delay': 67.20588, 'delays_best_auc': 58.70588, 'delay_best_pr': 1.0, 'n_steps': 1.0, 'batch_size': 44986.0}
+INFO     [TRAIN]	: {'epoch': 12, 'loss': 0.25029, 'lr': 0.001, 'params': 3841, 'time_iter': 0.01897, 'mae': 0.27015, 'mape': 55934965514240.0, 'mse': 0.25029, 'rmse': 0.50029, 'eta': 218.23341}
+INFO     [EVAL]	: {'epoch': 12, 'loss': 0.3702, 'lr': 0, 'params': 3841, 'time_iter': 0.01331, 'mae': 0.31428, 'mape': 12571464695808.0, 'mse': 0.3702, 'rmse': 0.60844}
+INFO     [TEST]	: {'epoch': 12, 'loss': 3287.37675, 'lr': 0, 'params': 3841, 'time_iter': 0.01324, 'mae': 14.3558, 'mape': 15060517781504.0, 'mse': 3287.37598, 'rmse': 57.33564, 'ambiguity': 0.30319, 'accuracy': 0.93278, 'precision': 0.74093, 'recall': 0.71144, 'f1': 0.72589, 'auc': 0.8484, 'pa': 0.76978, 'tp_rate': 0.71144, 'fp_rate': 0.03557, 'threshold': 411.65305, 'threshold_best': 0.88568, 'delay': 51.11765, 'delays_best_auc': 49.38235, 'delay_best_pr': 1.0, 'n_steps': 1.0, 'batch_size': 44986.0}
+INFO     [TRAIN]	: {'epoch': 13, 'loss': 0.25252, 'lr': 0.001, 'params': 3841, 'time_iter': 0.01999, 'mae': 0.27144, 'mape': 55392000278528.0, 'mse': 0.25252, 'rmse': 0.50251, 'eta': 212.43176}
+INFO     [EVAL]	: {'epoch': 13, 'loss': 0.40834, 'lr': 0, 'params': 3841, 'time_iter': 0.01378, 'mae': 0.33624, 'mape': 12549247467520.0, 'mse': 0.40834, 'rmse': 0.63901}
+INFO     [TEST]	: {'epoch': 13, 'loss': 2442.1892, 'lr': 0, 'params': 3841, 'time_iter': 0.01367, 'mae': 13.22265, 'mape': 15174730776576.0, 'mse': 2442.18921, 'rmse': 49.41851, 'ambiguity': 0.3378, 'accuracy': 0.9591, 'precision': 0.9766, 'recall': 0.68959, 'f1': 0.80837, 'auc': 0.8311, 'pa': 0.76337, 'tp_rate': 0.68959, 'fp_rate': 0.00236, 'threshold': 344.50773, 'threshold_best': 1.47542, 'delay': 53.67647, 'delays_best_auc': 53.73529, 'delay_best_pr': 1.0, 'n_steps': 1.0, 'batch_size': 44986.0}
+INFO     [TRAIN]	: {'epoch': 14, 'loss': 0.25523, 'lr': 0.001, 'params': 3841, 'time_iter': 0.01985, 'mae': 0.27214, 'mape': 54887324844032.0, 'mse': 0.25523, 'rmse': 0.5052, 'eta': 206.51613}
+INFO     [EVAL]	: {'epoch': 14, 'loss': 0.39093, 'lr': 0, 'params': 3841, 'time_iter': 0.01424, 'mae': 0.3183, 'mape': 14278592561152.0, 'mse': 0.39093, 'rmse': 0.62525}
+INFO     [TEST]	: {'epoch': 14, 'loss': 3115.2371, 'lr': 0, 'params': 3841, 'time_iter': 0.01397, 'mae': 13.70494, 'mape': 15929969737728.0, 'mse': 3115.2356, 'rmse': 55.8143, 'ambiguity': 0.38518, 'accuracy': 0.87478, 'precision': 0.0, 'recall': 0.0, 'f1': 0.0, 'auc': 0.80741, 'pa': 0.57687, 'tp_rate': 0.0, 'fp_rate': 0.00013, 'threshold': 67644.64635, 'threshold_best': 1.61859, 'delay': 165.52941, 'delays_best_auc': 62.70588, 'delay_best_pr': 1.0, 'n_steps': 1.0, 'batch_size': 44986.0}
+INFO     Checkpoint saved: 14
+INFO     [TRAIN]	: {'epoch': 15, 'loss': 0.25538, 'lr': 0.001, 'params': 3841, 'time_iter': 0.01964, 'mae': 0.27259, 'mape': 55591464599552.0, 'mse': 0.25538, 'rmse': 0.50535, 'eta': 200.47311}
+INFO     [EVAL]	: {'epoch': 15, 'loss': 0.41113, 'lr': 0, 'params': 3841, 'time_iter': 0.01374, 'mae': 0.33643, 'mape': 14333397434368.0, 'mse': 0.41113, 'rmse': 0.64119}
+INFO     [TEST]	: {'epoch': 15, 'loss': 2771.8927, 'lr': 0, 'params': 3841, 'time_iter': 0.01364, 'mae': 13.12856, 'mape': 21531709145088.0, 'mse': 2771.89136, 'rmse': 52.64875, 'ambiguity': 0.38367, 'accuracy': 0.94503, 'precision': 0.88541, 'recall': 0.64392, 'f1': 0.7456, 'auc': 0.80817, 'pa': 0.72501, 'tp_rate': 0.64392, 'fp_rate': 0.01192, 'threshold': 422.15993, 'threshold_best': 1.55236, 'delay': 61.14706, 'delays_best_auc': 60.38235, 'delay_best_pr': 1.0, 'n_steps': 1.0, 'batch_size': 44986.0}
+INFO     [TRAIN]	: {'epoch': 16, 'loss': 0.25311, 'lr': 0.001, 'params': 3841, 'time_iter': 0.01939, 'mae': 0.27189, 'mape': 56325195169792.0, 'mse': 0.25311, 'rmse': 0.5031, 'eta': 194.30814}
+INFO     [EVAL]	: {'epoch': 16, 'loss': 0.38586, 'lr': 0, 'params': 3841, 'time_iter': 0.01378, 'mae': 0.33361, 'mape': 17120173752320.0, 'mse': 0.38586, 'rmse': 0.62118}
+INFO     [TEST]	: {'epoch': 16, 'loss': 2775.17086, 'lr': 0, 'params': 3841, 'time_iter': 0.01368, 'mae': 13.82719, 'mape': 55145576529920.0, 'mse': 2775.17017, 'rmse': 52.67988, 'ambiguity': 0.3585, 'accuracy': 0.82688, 'precision': 0.39241, 'recall': 0.69989, 'f1': 0.50287, 'auc': 0.82075, 'pa': 0.73673, 'tp_rate': 0.69989, 'fp_rate': 0.15496, 'threshold': 425.92683, 'threshold_best': 1.97544, 'delay': 49.88235, 'delays_best_auc': 56.67647, 'delay_best_pr': 1.0, 'n_steps': 1.0, 'batch_size': 44986.0}
+INFO     [TRAIN]	: {'epoch': 17, 'loss': 0.25356, 'lr': 0.001, 'params': 3841, 'time_iter': 0.02039, 'mae': 0.27186, 'mape': 54136447959040.0, 'mse': 0.25356, 'rmse': 0.50354, 'eta': 188.71799}
+INFO     [EVAL]	: {'epoch': 17, 'loss': 0.39569, 'lr': 0, 'params': 3841, 'time_iter': 0.014, 'mae': 0.33411, 'mape': 20544548241408.0, 'mse': 0.39569, 'rmse': 0.62904}
+INFO     [TEST]	: {'epoch': 17, 'loss': 2658.08897, 'lr': 0, 'params': 3841, 'time_iter': 0.01362, 'mae': 13.5517, 'mape': 144005757140992.0, 'mse': 2658.08887, 'rmse': 51.55666, 'ambiguity': 0.34526, 'accuracy': 0.95894, 'precision': 0.98687, 'recall': 0.68088, 'f1': 0.8058, 'auc': 0.82737, 'pa': 0.75618, 'tp_rate': 0.68088, 'fp_rate': 0.0013, 'threshold': 399.03145, 'threshold_best': 1.4618, 'delay': 54.94118, 'delays_best_auc': 52.44118, 'delay_best_pr': 1.0, 'n_steps': 1.0, 'batch_size': 44986.0}
+INFO     Early stopping! Saving checkpoint...
+INFO     Checkpoint saved: 17
+INFO     Model GDN saved in run/results/anomaly/swat/gdn/5/model.pt loaded to cuda:1, best epoch 7 with eval err 0.36509 and test err 3055.18945
+INFO     Evaluating best model from epoch 7...
+INFO     Task done in 310s, results saved in run/results/anomaly/swat/gdn/5
